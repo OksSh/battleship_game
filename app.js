@@ -26,6 +26,14 @@ let model = {
   ],
 
   fire: function (guess) {
+    let currentShipLocations = this.ships
+      .reduce((prev, cur) => {
+        prev.push(...cur.locations);
+        return prev;
+      }, [])
+      .every((item) => item);
+    currentShipLocations && view.displayMessage('You are the winner');
+
     for (let i = 0; i < this.numShips; i++) {
       let ship = this.ships[i];
       let index = ship.locations.indexOf(guess);
@@ -45,6 +53,7 @@ let model = {
         return true;
       }
     }
+
     view.displayMiss(guess);
     view.displayMessage('You missed');
     return false;
